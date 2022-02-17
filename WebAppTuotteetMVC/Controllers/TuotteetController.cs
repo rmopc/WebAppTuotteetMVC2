@@ -32,7 +32,7 @@ namespace WebAppTuotteetMVC.Controllers
             }            
         }
 
-        public ActionResult Index2(string searchString1, string sortOrder, string currentFilter1, int? page, int? pagesize, string TuoteKategoria, string currentProductCategory)
+        public ActionResult Index2(string sortOrder, string currentFilter1, string searchString1, int? page, int? pagesize, string TuoteKategoria, string currentProductCategory)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.ProductNameSortParm = String.IsNullOrEmpty(sortOrder) ? "productname_desc" : "";
@@ -47,7 +47,7 @@ namespace WebAppTuotteetMVC.Controllers
                 searchString1 = currentFilter1;
             }
 
-            ViewBag.currentFilter = searchString1;
+            ViewBag.currentFilter1 = searchString1;
 
             if ((TuoteKategoria!= null) && (TuoteKategoria != "0"))
             {
@@ -147,7 +147,7 @@ namespace WebAppTuotteetMVC.Controllers
             }
 
             ViewBag.KategoriaID = new SelectList(katLista, "KategoriaID", "KategoriaIDKategoriaNimi", TuoteKategoria);
-            int pageSize = (pagesize ?? 10);
+            int pageSize = (pagesize ?? 5);
             int pageNumber = (page ?? 1);
             return View(tuotteet.ToPagedList(pageNumber, pageSize));
         }

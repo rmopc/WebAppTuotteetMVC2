@@ -8,45 +8,6 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <!--<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Products-DemoApp", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">-->
-    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
-    <!--<li class="nav-item">
-        <a class="nav-link" href="~/Tuotteet/Index">Products</a>
-    </li>-->
-    @*<li class="nav-item">
-            <a class="nav-link" href="~/Shippers/Index">Shippers</a>
-        </li>*@
-    <!--</ul>
-
-    <ul class="navbar-nav ms-auto">-->
-    @*tällä saatu kirjautumislinkit valikkopalkin oikeaan reunaan, toiminee myös ilman*@
-    <!--<li class="nav-item">
-        <p class="navbar-text">Login-status: &nbsp @ViewBag.LoggedStatus  &nbsp &nbsp &nbsp</p>-->
-    @*kirjautumisstatus on siirretty tähän, siistittävä tuota tapaa erottaa teksti linkeistä!*@
-    <!--</li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/Home/Login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/Home/LogOut">Logout</a>
-                    </li>
-                </ul>
-
-            </div>
-        </div>
-    </div>-->
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand">TilausDB DemoApp</a>
@@ -77,10 +38,10 @@
                         </li>
                     }
                     <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Jatkokurssi</a>
                             <div class="dropdown-menu">
-                                <a class="nav-link" href="~/Tuotteet/Index2">Tuotteet 2</a>
-                                <a class="nav-link" href="~/Tilaukset/TilausYhteenveto">Tilaukset yhteenveto</a>
+                                <a class="nav-link" href="~/Tuotteet/Index2">Tuotteet index2</a>
+                                <a class="nav-link" href="~/Tilaukset/TilausYhteenveto">Tilausten yhteenveto</a>
                                 @*<a class="dropdown-item" href="#">Something else here</a>*@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Separated link</a>

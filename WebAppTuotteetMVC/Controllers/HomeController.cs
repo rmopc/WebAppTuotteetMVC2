@@ -15,7 +15,8 @@ namespace WebAppTuotteetMVC.Controllers
             {
                 ViewBag.LoggedStatus = "Logged out";
             }
-            else ViewBag.LoggedStatus = Session["UserName"].ToString();         
+            else ViewBag.LoggedStatus = Session["UserName"].ToString();
+            ViewBag.LoginError = 0;
             return View();
 
         }
