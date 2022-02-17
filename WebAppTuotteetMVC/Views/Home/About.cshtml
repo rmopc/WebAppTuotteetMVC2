@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "About";
+    if (Session["UserName"] == null)
+    {
+        ViewBag.LoggedStatus = "Logged out";
+
+    }
+    else
+    {
+        ViewBag.LoggedStatus = Session["UserName"].ToString();
+    }
+}
+<h2>@ViewBag.Title</h2>
+
+
+<p>This is a demo-project made for school.</p>

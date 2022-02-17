@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Contact Details";
+    if (Session["UserName"] == null)
+    {
+        ViewBag.LoggedStatus = "Logged out";
+
+    }
+    else
+    {
+        ViewBag.LoggedStatus = Session["UserName"].ToString();
+    }
+}
+<h2>@ViewBag.Title</h2>
+
+<address>
+    Ronie Oljemark<br />
+    Kuuselantie 32<br />
+    11130 Riihimäki<br /> 
+    <p><a href="tel:+358 40 911 7567">+358 40 911 7567</a></p>
+</address>
+
+<address>
+    <strong>Support:</strong>   <a href="mailto:ronie.oljemark@gmail.com">ronie.oljemark@gmail.com</a><br />    
+</address>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<WebAppTuotteetMVC.Models.Tuotteet>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Products</h2>
+<p>There are currently @ViewBag.RiviLkm products available.</p>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4">
+                <div class="card mb-3">
+                    <h3 class="card-header">@item.Nimi</h3>
+                    <div class="card-body">
+                        <h5 class="card-title">Tuotenumero: @item.TuoteID</h5>
+                        @*<h6 class="card-subtitle text-muted">Support card subtitle</h6>*@
+                    </div>
+                    <img style="height:200px; width:350px; display:block;" src="@item.ImageLink">
+                    <div class="card-body">
+                        @*<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>*@
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">@item.Ahinta €</li>
+                        <li class="list-group-item">@item.Nimi</li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="#" class="card-link">@Html.ActionLink("Edit", "Edit", new { id = item.TuoteID }) &nbsp</a>
+                        <a href="#" class="card-link">@Html.ActionLink("Details", "Details", new { id = item.TuoteID }) &nbsp</a>                        
+                    </div>
+                    <div class="card-footer text-muted">
+                        © 2022 - Kalju koodaa
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

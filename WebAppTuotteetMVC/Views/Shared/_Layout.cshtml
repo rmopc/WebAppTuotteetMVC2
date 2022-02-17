@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <!--<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Products-DemoApp", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">-->
+    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
+    <!--<li class="nav-item">
+        <a class="nav-link" href="~/Tuotteet/Index">Products</a>
+    </li>-->
+    @*<li class="nav-item">
+            <a class="nav-link" href="~/Shippers/Index">Shippers</a>
+        </li>*@
+    <!--</ul>
+
+    <ul class="navbar-nav ms-auto">-->
+    @*tällä saatu kirjautumislinkit valikkopalkin oikeaan reunaan, toiminee myös ilman*@
+    <!--<li class="nav-item">
+        <p class="navbar-text">Login-status: &nbsp @ViewBag.LoggedStatus  &nbsp &nbsp &nbsp</p>-->
+    @*kirjautumisstatus on siirretty tähän, siistittävä tuota tapaa erottaa teksti linkeistä!*@
+    <!--</li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Home/Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Home/LogOut">Logout</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>-->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand">TilausDB DemoApp</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/Home/Index">
+                            Home
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Home/About">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Home/Contact">Contact</a>
+                    </li>
+                    @if (Session["UserName"] != null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Henkilot/Index">People</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Tuotteet/Index">Products</a>
+                        </li>
+                    }
+                    @*<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                        </li>*@
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    @*tällä saatu kirjautumislinkit valikkopalkin oikeaan reunaan, toiminee myös ilman*@
+                    <li class="nav-item">
+                        <p class="navbar-text">Login-status: &nbsp @ViewBag.LoggedStatus  &nbsp &nbsp &nbsp</p> @*kirjautumisstatus on siirretty tähän, siistittävä tuota tapaa erottaa teksti linkeistä!*@
+                    </li>
+                    @if (Session["UserName"] == null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Login">Login</a>
+                        </li>
+                    }
+                    @if (Session["UserName"] != null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/LogOut">Logout</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+    </nav>
+
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Kalju koodaa</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/bootstrapflatly")*@
+    @Scripts.Render("~/bundles/jqueryui")
+    @RenderSection("scripts", required: false)
+    <script src="https://bootswatch.com/_vendor/popper.js/dist/umd/popper.min.js"></script>
+    <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
