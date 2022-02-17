@@ -76,16 +76,16 @@
                             <a class="nav-link" href="~/Tuotteet/Index">Products</a>
                         </li>
                     }
-                    @*<li class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="nav-link" href="~/Tuotteet/Index2">Tuotteet 2</a>
+                                <a class="nav-link" href="~/Tilaukset/TilausYhteenveto">Tilaukset yhteenveto</a>
+                                @*<a class="dropdown-item" href="#">Something else here</a>*@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Separated link</a>
                             </div>
-                        </li>*@
+                        </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     @*tällä saatu kirjautumislinkit valikkopalkin oikeaan reunaan, toiminee myös ilman*@
@@ -95,7 +95,7 @@
                     @if (Session["UserName"] == null)
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="~/Home/Login">Login</a>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#LoginRuutu">Login </button>
                         </li>
                     }
                     @if (Session["UserName"] != null)

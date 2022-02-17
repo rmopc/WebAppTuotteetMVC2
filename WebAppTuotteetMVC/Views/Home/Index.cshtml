@@ -24,7 +24,74 @@
     @if (Session["UserName"] == null)
     {
         <p class="lead">Welcome to my demo app. Please login to access the database.</p>
-        <p><a href="~/Home/Login" class="btn btn-primary btn-lg">Login &raquo;</a></p>
+        @*<p><a href="~/Home/Login" class="btn btn-primary btn-lg">Login &raquo;</a></p>*@
+
+        <!-- Button to Open the Modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#LoginRuutu">
+            @*Huom tuo data-bs koska Bootstrap 5!*@
+            Login
+        </button>
+
+        <!-- The Modal -->
+        <div class="modal" id="LoginRuutu">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Login</h4>
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary"><i class="fas fa-times"></i></a>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        @using (Html.BeginForm("Authorize", "Home", FormMethod.Post, new { id = "loginForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.LoginId)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.UserName, "Username:", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <label class="text-danger">
+                                    @Html.DisplayFor(model => model.LoginErrorMessage)
+                                </label>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PassWord, "Password:", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.PassWord, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.PassWord, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                @*<div class="btn-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Login" class="btn btn-primary" />
+                                        </div>
+                                    </div>*@
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <div>
+                            <button type="submit" class="btn btn-primary" form="loginForm"><i class="fas fa-check"></i></button>
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-primary"><i class="fas fa-times"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     }
     @if (Session["UserName"] != null)
     {
@@ -33,69 +100,5 @@
 
 </div>
 
-<!-- Button to Open the Modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#LoginRuutu"> @*Huom tuo data-bs koska Bootstrap 5!*@
-    Open modal
-</button>
 
-<!-- The Modal -->
-<div class="modal" id="LoginRuutu">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
-                <a href="@Url.Action("Index", "Home")" class="btn btn-primary"><i class="fas fa-times"></i></a>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                @using (Html.BeginForm("Authorize", "Home", FormMethod.Post, new {id = "loginForm"}))
-                {
-                    @Html.AntiForgeryToken()
-
-                    <div class="form-horizontal">                        
-                        <hr />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.LoginId)
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.UserName, "Username", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <label class="text-danger">
-                            @Html.DisplayFor(model => model.LoginErrorMessage)
-                        </label>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.PassWord, "Password", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.PassWord, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.PassWord, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        @*<div class="btn-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Login" class="btn btn-primary" />
-                            </div>
-                        </div>*@
-                    </div>
-                }
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <div>
-                    <button type="submit" class="btn btn-primary" form="loginForm"><i class="fas fa-check"></i></button>
-                    <a href="@Url.Action("Index", "Home")" class="btn btn-primary"><i class="fas fa-times"></i></a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
 
