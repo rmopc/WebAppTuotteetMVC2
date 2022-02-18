@@ -19,6 +19,7 @@ namespace WebAppTuotteetMVC.Controllers
         public ActionResult Index()
         {
             var tilaukset = db.Tilaukset.Include(t => t.Asiakkaat).Include(t => t.Postitoimipaikat);
+            ViewBag.RiviLkm = db.Tilaukset.Count();
             return View(tilaukset.ToList());
         }
 
@@ -157,7 +158,7 @@ namespace WebAppTuotteetMVC.Controllers
                                        KategoriaID = (int)k.KategoriaID,
                                        KategoriaNimi = k.KategoriaNimi,
                                    };
-
+            ViewBag.RiviLkm = db.Tilaukset.Count();
             return View(tilausYhteenveto);
         }
     }
