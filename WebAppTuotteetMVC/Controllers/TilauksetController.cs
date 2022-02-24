@@ -167,5 +167,25 @@ namespace WebAppTuotteetMVC.Controllers
             var tilaukset = db.Tilaukset.Include(t => t.Asiakkaat).Include(t => t.Postitoimipaikat);            
             return View(tilaukset.ToList());
         }
+
+        public ActionResult _TilausRivit(int? orderid)
+        {
+            var orderRowsList = from tr in db.Tilausrivit                                   
+                                   join tu in db.Tuotteet on tr.TuoteID equals tu.TuoteID
+                                   join k in db.Kategoriat on tu.KategoriaID equals k.KategoriaID
+                                   where tr.TilausID == orderid
+
+                                   select new OrderRows
+                                   {
+                                       TilausID =(int)tr.TilausID, //tähän piti lisätä tuo int suluissa
+                                       Nimi = tu.Nimi,
+                                       Ahinta = (decimal)tu.Ahinta,                                       
+                                       Maara = (int)tr.Maara,
+                                       KategoriaID = (int)k.KategoriaID,
+                                       KategoriaNimi = k.KategoriaNimi,
+                                   };
+            //ViewBag.RiviLkm = db.Tilaukset.Count();
+            return PartialView(orderRowsList);
+        }
     }
 }
