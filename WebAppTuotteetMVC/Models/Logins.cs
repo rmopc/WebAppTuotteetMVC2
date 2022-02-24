@@ -22,6 +22,6 @@ namespace WebAppTuotteetMVC.Models
         [Required(ErrorMessage = "Anna salasana!")]
         public string PassWord { get; set; }
 
-        public string LoginErrorMessage { get; set; }   
+        public string LoginErrorMessage { get; set; }
     }
 }

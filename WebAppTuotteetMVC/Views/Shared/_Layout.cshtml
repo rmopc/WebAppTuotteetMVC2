@@ -51,9 +51,8 @@
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     @*tällä saatu kirjautumislinkit valikkopalkin oikeaan reunaan, toiminee myös ilman*@
-                    <li class="nav-item active">
-                        <p class="navbar-text">Logged as: &nbsp @ViewBag.LoggedStatus  &nbsp &nbsp &nbsp</p> @*kirjautumisstatus on siirretty tähän, siistittävä tuota tapaa erottaa teksti linkeistä!*@
-                    </li>
+                    <li class="navbar-text">Logged as: &nbsp @ViewBag.LoggedStatus  &nbsp &nbsp &nbsp</li> @*kirjautumisstatus on siirretty tähän, siistittävä tuota tapaa erottaa teksti linkeistä!*@
+                    
                     @if (Session["UserName"] == null)
                     {
                         <li class="nav-item">
