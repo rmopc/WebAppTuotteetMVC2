@@ -31,7 +31,7 @@ namespace WebAppTuotteetMVC
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrapflatly.css",
-                       "~/Scripts/gijgo/combined/gijgo.css",
+                      "~/Content/gijgo/combined/gijgo.css",
                       "~/Content/site.css"));
         }
     }
