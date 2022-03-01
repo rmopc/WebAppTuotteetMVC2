@@ -4,12 +4,19 @@
     ViewBag.Title = "Create";
 }
 
+@section scripts {
+    <script type="text/javascript">
+$('#Tilauspvm').datetimepicker({ footer: true, modal: false, format: 'dd.mm.yyyy HH:MM' });
+$('#Toimituspvm').datetimepicker({ footer: true, modal: false, format: 'dd.mm.yyyy HH:MM'});
+    </script>
+}
+
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Tilaukset</h4>
         <hr />
