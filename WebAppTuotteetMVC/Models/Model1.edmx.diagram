@@ -19,6 +19,8 @@
         <AssociationConnector Association="TuoteDemoRonieModel.FK_Tilaukset_Postitoimipaikat" ManuallyRouted="false" />
         <AssociationConnector Association="TuoteDemoRonieModel.FK_Tilausrivit_Tilaukset" ManuallyRouted="false" />
         <AssociationConnector Association="TuoteDemoRonieModel.FK_Tilausrivit_Tuotteet" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.Kategoriamyynnit" Width="1.5" PointX="3.375" PointY="8.75" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.KategoriaMyynti" Width="1.5" PointX="5.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

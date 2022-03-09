@@ -4,12 +4,12 @@
     ViewBag.Title = "Edit";
 }
 
-@section scripts {
+@*@section scripts {
     <script type="text/javascript">
         $('#Tilauspvm').datepicker({ footer: true, modal: false, format: 'dd.mm.yyyy HH:MM', uiLibrary: 'bootstrap5' });
         $('#Toimituspvm').datepicker({ footer: true, modal: false, format: 'dd.mm.yyyy HH:MM', uiLibrary: 'bootstrap5' });
-    </script>
-}
+    </script> ei toimi BS5 kanssa :D
+}*@
 <h2>Edit</h2>
 
 @using (Html.BeginForm())
@@ -23,7 +23,7 @@
         @Html.HiddenFor(model => model.TilausID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AsiakasID, "AsiakasID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AsiakasID, "Asiakkaan nimi", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("AsiakasID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AsiakasID, "", new { @class = "text-danger" })
@@ -39,7 +39,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Postinumero, "Postinumero", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Postinumero, "Postitoimipaikka", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("Postinumero", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Postinumero, "", new { @class = "text-danger" })

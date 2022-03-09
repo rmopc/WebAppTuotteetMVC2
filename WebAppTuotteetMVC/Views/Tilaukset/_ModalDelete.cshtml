@@ -1,0 +1,94 @@
+﻿@model WebAppTuotteetMVC.Models.Tilaukset
+
+@*<h3>Are you sure you want to delete this?</h3>*@
+
+<div class="modal fade" id="ModalOrderDelete">
+
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-body">
+                    <h4>Are you sure you want to delete order number @Html.DisplayFor(model => model.TilausID)?  </h4>
+
+                    <div>
+                        <hr />
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Toimitusosoite)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Toimitusosoite)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Tilauspvm)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Tilauspvm)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Toimituspvm)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Toimituspvm)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Asiakkaat.Nimi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Asiakkaat.Nimi)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Postitoimipaikat.Postinumero)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Postitoimipaikat.Postinumero)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Postitoimipaikat.Postitoimipaikka)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Postitoimipaikat.Postitoimipaikka)
+                            </dd>
+
+                        </dl>
+
+                        @*@using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
+            }*@
+                    </div>
+                    <div class="modal-footer">
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-actions no-color">
+                                @*Formin lähettävä button, joka ei kuitenkaan ole formin sisällä, mutta viittaa formin ID:hen*@
+                                <button type="submit" value="Delete" class="btn btn-primary"><i class="fas fa-trash-alt"></i></button>
+                                @*Kontrollerin kutsu Url.Action -komennolla, jotta peruuttaminen johtaa alkutilanteeseen*@
+                                <a href="@Url.Action("Index", "Tilaukset")" class="btn btn-primary"><i class="fas fa-times"></i></a>
+                            </div>
+                        }
+                    </div>
+                </div> <!--modal-body-->
+            </div>  <!--modal-header-->
+        </div>
+    </div>
+</div>

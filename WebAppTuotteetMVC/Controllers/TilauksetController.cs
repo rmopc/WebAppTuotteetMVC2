@@ -62,6 +62,7 @@ namespace WebAppTuotteetMVC.Controllers
 
             ViewBag.AsiakasID = new SelectList(db.Asiakkaat, "AsiakasID", "Nimi", tilaukset.AsiakasID);
             ViewBag.Postinumero = new SelectList(db.Postitoimipaikat, "Postinumero", "Postitoimipaikka", tilaukset.Postinumero);
+            
             return View(tilaukset);
         }
 
@@ -177,15 +178,97 @@ namespace WebAppTuotteetMVC.Controllers
 
                                    select new OrderRows
                                    {
-                                       TilausID =(int)tr.TilausID, //tähän piti lisätä tuo int suluissa
+                                       TilausID =tr.TilausID, //tähän piti lisätä tuo int suluissa
                                        Nimi = tu.Nimi,
                                        Ahinta = (decimal)tu.Ahinta,                                       
                                        Maara = (int)tr.Maara,
                                        KategoriaID = (int)k.KategoriaID,
                                        KategoriaNimi = k.KategoriaNimi,
+                                       TuoteID = (int)tu.TuoteID
                                    };
             //ViewBag.RiviLkm = db.Tilaukset.Count();
             return PartialView(orderRowsList);
+        }
+
+        public ActionResult _ModalEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Tilaukset tilaukset = db.Tilaukset.Find(id);
+            if (tilaukset == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.AsiakasID = new SelectList(db.Asiakkaat, "AsiakasID", "Nimi", tilaukset.AsiakasID);
+            ViewBag.Postinumero = new SelectList(db.Postitoimipaikat, "Postinumero", "Postitoimipaikka", tilaukset.Postinumero);
+            //ViewBag.ShipVia = new SelectList(db.Tilausrivit, "TilausID", "TuoteID", orders.Tilausrivit);
+            return PartialView("_ModalEdit", tilaukset); //palautetaan PartialView ja sille parametrinä yhden tilauksen tiedot
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _ModalEdit([Bind(Include = "TilausID,AsiakasID,Toimitusosoite,Postinumero,Tilauspvm,Toimituspvm")] Tilaukset tilaukset)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(tilaukset).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.AsiakasID = new SelectList(db.Asiakkaat, "AsiakasID", "Nimi", tilaukset.AsiakasID);
+            ViewBag.Postinumero = new SelectList(db.Postitoimipaikat, "Postinumero", "Postitoimipaikka", tilaukset.Postinumero);
+            //ViewBag.ShipVia = new SelectList(db.Tilausrivit, "TilausID", "TuoteID", orders.Tilausrivit);
+            return PartialView("_ModalEdit", tilaukset);
+        }
+
+        public ActionResult _ModalDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Tilaukset tilaukset = db.Tilaukset.Find(id);
+            if (tilaukset == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_ModalDelete", tilaukset);
+        }
+
+        // POST: Orders/Delete/5
+        [HttpPost, ActionName("_ModalDelete")]
+        [ValidateAntiForgeryToken]
+
+        public ActionResult _ModalDeleteConfirmed(int id)
+        {
+            Tilaukset tilaukset = db.Tilaukset.Find(id);
+            db.Tilaukset.Remove(tilaukset);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+        public ActionResult DeleteFromJQuery(string id)
+        {
+            TilausDBEntities db = new TilausDBEntities();
+            int iid = int.Parse(id);
+            // etsitään id:n perusteella asiakasrivi kannasta
+            bool OK = false;
+            Tilaukset dbItem = (from t in db.Tilaukset
+                                                where t.TilausID == iid
+                                                select t).FirstOrDefault();
+            if (dbItem != null)
+            {
+                // tietokannasta poisto
+                db.Tilaukset.Remove(dbItem);
+                db.SaveChanges();
+                OK = true;
+            }
+            db.Dispose();
+
+            return Json(OK, JsonRequestBehavior.AllowGet);
         }
     }
 }

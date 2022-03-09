@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TuoteDemoRonieModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TuoteDemoRonieModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Asiakkaat">
           <Key>
             <PropertyRef Name="AsiakasID" />
@@ -79,6 +79,27 @@
           <Property Name="Kuva" Type="image" />
           <Property Name="ImageLink" Type="nvarchar" MaxLength="200" />
           <Property Name="KategoriaID" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TuoteDemoRonie.dbo.Kategoriamyynnit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Kategoriamyynnit">
+          <Key>
+            <PropertyRef Name="rowid" />
+          </Key>
+          <Property Name="rowid" Type="bigint" Nullable="false" />
+          <Property Name="KategoriaNimi" Type="nvarchar" MaxLength="15" />
+          <Property Name="KategoriaTuoteMyynnit" Type="numeric" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="KategoriaMyynti">
+          <Key>
+            <PropertyRef Name="rowid" />
+          </Key>
+          <Property Name="rowid" Type="bigint" Nullable="false" />
+          <Property Name="KategoriaNimi" Type="nvarchar" MaxLength="15" />
+          <Property Name="Nimi" Type="varchar" MaxLength="50" />
+          <Property Name="TuoteMyynnit" Type="numeric" Precision="38" Scale="2" />
         </EntityType>
         <Association Name="FK_Asiakkaat_Postitoimipaikat">
           <End Role="Postitoimipaikat" Type="Self.Postitoimipaikat" Multiplicity="0..1" />
@@ -161,6 +182,21 @@
           <EntitySet Name="Tilaukset" EntityType="Self.Tilaukset" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tilausrivit" EntityType="Self.Tilausrivit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tuotteet" EntityType="Self.Tuotteet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategoriamyynnit" EntityType="Self.Kategoriamyynnit" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Kategoriamyynnit].[rowid] AS [rowid], 
+    [Kategoriamyynnit].[KategoriaNimi] AS [KategoriaNimi], 
+    [Kategoriamyynnit].[KategoriaTuoteMyynnit] AS [KategoriaTuoteMyynnit]
+    FROM [dbo].[Kategoriamyynnit] AS [Kategoriamyynnit]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="KategoriaMyynti" EntityType="Self.KategoriaMyynti" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [KategoriaMyynti].[rowid] AS [rowid], 
+    [KategoriaMyynti].[KategoriaNimi] AS [KategoriaNimi], 
+    [KategoriaMyynti].[Nimi] AS [Nimi], 
+    [KategoriaMyynti].[TuoteMyynnit] AS [TuoteMyynnit]
+    FROM [dbo].[KategoriaMyynti] AS [KategoriaMyynti]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Asiakkaat_Postitoimipaikat" Association="Self.FK_Asiakkaat_Postitoimipaikat">
             <End Role="Postitoimipaikat" EntitySet="Postitoimipaikat" />
             <End Role="Asiakkaat" EntitySet="Asiakkaat" />
@@ -186,8 +222,7 @@
             <End Role="Tuotteet" EntitySet="Tuotteet" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TuoteDemoRonieModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -383,7 +418,26 @@
             <End Role="Tuotteet" EntitySet="Tuotteet" />
             <End Role="Tilausrivit" EntitySet="Tilausrivit" />
           </AssociationSet>
+          <EntitySet Name="Kategoriamyynnit" EntityType="TuoteDemoRonieModel.Kategoriamyynnit" />
+          <EntitySet Name="KategoriaMyynti" EntityType="TuoteDemoRonieModel.KategoriaMyynti" />
         </EntityContainer>
+        <EntityType Name="Kategoriamyynnit">
+          <Key>
+            <PropertyRef Name="rowid" />
+          </Key>
+          <Property Name="rowid" Type="Int64" Nullable="false" />
+          <Property Name="KategoriaNimi" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="KategoriaTuoteMyynnit" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="KategoriaMyynti">
+          <Key>
+            <PropertyRef Name="rowid" />
+          </Key>
+          <Property Name="rowid" Type="Int64" Nullable="false" />
+          <Property Name="KategoriaNimi" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TuoteMyynnit" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -470,6 +524,25 @@
                 <ScalarProperty Name="Kuva" ColumnName="Kuva" />
                 <ScalarProperty Name="ImageLink" ColumnName="ImageLink" />
                 <ScalarProperty Name="KategoriaID" ColumnName="KategoriaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategoriamyynnit">
+            <EntityTypeMapping TypeName="TuoteDemoRonieModel.Kategoriamyynnit">
+              <MappingFragment StoreEntitySet="Kategoriamyynnit">
+                <ScalarProperty Name="KategoriaTuoteMyynnit" ColumnName="KategoriaTuoteMyynnit" />
+                <ScalarProperty Name="KategoriaNimi" ColumnName="KategoriaNimi" />
+                <ScalarProperty Name="rowid" ColumnName="rowid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KategoriaMyynti">
+            <EntityTypeMapping TypeName="TuoteDemoRonieModel.KategoriaMyynti">
+              <MappingFragment StoreEntitySet="KategoriaMyynti">
+                <ScalarProperty Name="TuoteMyynnit" ColumnName="TuoteMyynnit" />
+                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
+                <ScalarProperty Name="KategoriaNimi" ColumnName="KategoriaNimi" />
+                <ScalarProperty Name="rowid" ColumnName="rowid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

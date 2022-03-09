@@ -4,17 +4,127 @@
     ViewBag.Title = "Index";
 }
 
+@section scripts {
+
+    <script type="text/javascript">
+
+        ////1.pv video 15
+        //$("#singleSelectedShipperID").on("change", function () {
+        //    //Getting Value
+        //    var selValue = $("#singleSelectedShipperID").val();
+        //    document.getElementById("ShipperOrder").value = selValue;
+        //});
+
+        //4.pv get order
+        $(function () {
+            $(".getOrderId").click(function () {
+                let orderId = $(this).data("orderid");
+                console.log("Klikkasit tilausnumeroa: " + orderId);
+                var url = "/Tilaukset/_ModalEdit/?id=" + orderId; //kontrollerin osoite, parametrin asettaminen
+                console.log(url);
+
+                let $detailDivEdit = $("#orderEdit"); //HTML-sivun paikkamerkin (div) asettaminen muuttujaan
+
+                $detailDivEdit.append(" <b>Avataan tilauksen " + orderId + " muokkausikkuna...</b>");
+
+                $.get(url, function (data) {                                //Kontrollerin kutsu, vastaus tulee objektista, jonka nimi on "data"
+                    $detailDivEdit.replaceWith(data);
+                    $('#ModalOrderEdit').modal('show');                     //Edit-ikkunan näyttäminen modaalina.Edellisen ikkunan html-koodi on jo olemassa sivulla edellisen JQuery-komennon perusteella.
+                });
+            });
+        });
+
+        //4.pv create
+        $(function () {
+            $(".creNewOrder").click(function () {
+                console.log("Klikkasit uuden tilauksen luontipainiketta: ");
+                var url = "/Tilaukset/_ModalCreate";
+                console.log(url);
+
+                $("#orderCreate").append(" <b>Avataan tilauksen luonti-ikkuna...</b>");
+
+                var $detailDivCreate = $("#orderCreate");
+                $.get(url, function (data) {
+                    $detailDivCreate.replaceWith(data);
+                    $('#ModalOrderCreate').modal('show');
+                });
+            });
+        });
+
+        //4.pv delete
+        $(function () {
+            $(".delOrderId").click(function () {
+                let orderId = $(this).data("orderid");
+                console.log("Klikkasit poistettavaa tilausnumeroa: " + orderId);
+                var url = "/Tilaukset/_ModalDelete/?id=" + orderId;
+                console.log(url);
+
+                $("#orderDelete").append(" <b>Avataan tilauksen " + orderId + " poistoikkuna...</b>");
+
+                var $detailDivDelete = $("#orderDelete");
+                $.get(url, function (data) {
+                    $detailDivDelete.replaceWith(data);
+                    $('#ModalOrderDelete').modal('show');
+                });
+            });
+        });
+
+        function deleteOrder(deletedOrderId) {
+            alert("Päätit poistaa tilauksen: " + deletedOrderId);
+            var deleteurl = "/Tilaukset/DeleteFromJQuery/?id=" + deletedOrderId;
+            console.log(deleteurl);
+
+            var ok = confirm("Haluatko varmasti poistaa asiakkaan " + deletedOrderId + "?");
+
+            if (ok == true) {
+                $.getJSON(deleteurl, null, function (status) {
+                    if (status == true) {
+                        alert("Tilaus on nyt poistettu!");
+                        $('#ModalOrderDelete').modal('hide');
+                        RefreshOrderList();
+                    }
+                    else {
+                        alert("Poistaminen ei onnistunut, yritä uudelleen!");
+                    }
+                });
+            }
+        }
+        function RefreshOrderList() {
+            console.log("ennen ajaxia refresh");
+            $.ajax({
+                type: "GET",
+                url: "/Tilaukset/Index",
+                success: function (result) {
+                    console.log("resultti tuli " + result);
+                    //$(document).replaceAll(result);
+                    document.open();
+                    document.write(result);
+                    document.close();
+                }
+            });
+        }
+
+    </script>
+}
+
 <h2>Orders</h2>
 <p>Showing @ViewBag.RiviLkm rows.</p>
 
 @*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+
+<div id="orderEdit"></div>
+<div id="orderDelete"></div>
+<div id="orderCreate"></div>
 
 <a class="nav-link" href="~/Tilaukset/TilausYhteenveto">View detailed order summary</a>
 
 <table class="table">
     <tr>
+        <th>
+            <button class="btn btn-primary creNewOrder fas fa-plus-square"></button>
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Toimitusosoite)
         </th>
@@ -28,6 +138,9 @@
             @Html.DisplayNameFor(model => model.Asiakkaat.Nimi)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Postitoimipaikat.Postinumero)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Postitoimipaikat.Postitoimipaikka)
         </th>
         <th></th>
@@ -35,28 +148,35 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Toimitusosoite)
-            </td>
-            <td>
-                @Html.ValueFor(modelItem => item.Tilauspvm)
-            </td>
-            <td>
-                @Html.ValueFor(modelItem => item.Toimituspvm)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Asiakkaat.Nimi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Postitoimipaikat.Postitoimipaikka)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.TilausID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.TilausID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.TilausID })
-            </td>
-        </tr>
+<tr>
+    <td>
+        <button class="btn btn-primary getOrderId fas fa-edit" data-orderid="@item.TilausID" @*style="margin-bottom:2px;"*@></button>
+        <button class="btn btn-primary delOrderId fas fa-trash-alt" data-orderid="@item.TilausID"></button>
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Toimitusosoite)
+    </td>
+    <td>
+        @Html.ValueFor(modelItem => item.Tilauspvm)
+    </td>
+    <td>
+        @Html.ValueFor(modelItem => item.Toimituspvm)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Asiakkaat.Nimi)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Postitoimipaikat.Postinumero)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Postitoimipaikat.Postitoimipaikka)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.TilausID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.TilausID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.TilausID })
+    </td>
+</tr>
     }
 
 </table>
