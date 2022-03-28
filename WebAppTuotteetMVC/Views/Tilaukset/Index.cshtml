@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<WebAppTuotteetMVC.Models.Tilaukset>
 
+
 @{
     ViewBag.Title = "Index";
 }
@@ -27,9 +28,9 @@
 
                 $detailDivEdit.append(" <b>Avataan tilauksen " + orderId + " muokkausikkuna...</b>");
 
-                $.get(url, function (data) {                                //Kontrollerin kutsu, vastaus tulee objektista, jonka nimi on "data"
+                $.get(url, function (data) {  //Kontrollerin kutsu, vastaus tulee objektista, jonka nimi on "data"
                     $detailDivEdit.replaceWith(data);
-                    $('#ModalOrderEdit').modal('show');                     //Edit-ikkunan näyttäminen modaalina.Edellisen ikkunan html-koodi on jo olemassa sivulla edellisen JQuery-komennon perusteella.
+                    $('#ModalOrderEdit').modal('show');   //Edit-ikkunan näyttäminen modaalina.Edellisen ikkunan html-koodi on jo olemassa sivulla edellisen JQuery-komennon perusteella.
                 });
             });
         });
@@ -122,61 +123,37 @@
 
 <table class="table">
     <tr>
-        <th>
-            <button class="btn btn-primary creNewOrder fas fa-plus-square"></button>
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Toimitusosoite)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tilauspvm)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Toimituspvm)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Asiakkaat.Nimi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Postitoimipaikat.Postinumero)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Postitoimipaikat.Postitoimipaikka)
-        </th>
+        <th><button class="btn btn-primary creNewOrder fas fa-plus-square"></button></th>
+        <th>@Html.DisplayNameFor(model => model.TilausID)</th>
+        <th>@Html.DisplayNameFor(model => model.Asiakkaat.Nimi)</th>
+        <th>@Html.DisplayNameFor(model => model.Toimitusosoite)</th>
+        <th>@Html.DisplayNameFor(model => model.Postitoimipaikat.Postinumero)</th>
+        <th>@Html.DisplayNameFor(model => model.Postitoimipaikat.Postitoimipaikka)</th>
+        <th>@Html.DisplayNameFor(model => model.Tilauspvm)</th>
+        <th> @Html.DisplayNameFor(model => model.Toimituspvm)</th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        <button class="btn btn-primary getOrderId fas fa-edit" data-orderid="@item.TilausID" @*style="margin-bottom:2px;"*@></button>
-        <button class="btn btn-primary delOrderId fas fa-trash-alt" data-orderid="@item.TilausID"></button>
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Toimitusosoite)
-    </td>
-    <td>
-        @Html.ValueFor(modelItem => item.Tilauspvm)
-    </td>
-    <td>
-        @Html.ValueFor(modelItem => item.Toimituspvm)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Asiakkaat.Nimi)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Postitoimipaikat.Postinumero)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Postitoimipaikat.Postitoimipaikka)
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.TilausID }) |
-        @Html.ActionLink("Details", "Details", new { id = item.TilausID }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.TilausID })
-    </td>
-</tr>
+        <tr>
+            <td>
+                <button class="btn btn-primary getOrderId fas fa-edit" data-orderid="@item.TilausID" @*style="margin-bottom:2px;"*@></button>
+                <button class="btn btn-primary delOrderId fas fa-trash-alt" data-orderid="@item.TilausID"></button>
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.TilausID)</td>
+            <td>@Html.DisplayFor(modelItem => item.Asiakkaat.Nimi)</td>
+            <td>@Html.DisplayFor(modelItem => item.Toimitusosoite)</td>
+            <td>@Html.DisplayFor(modelItem => item.Postitoimipaikat.Postinumero)</td>
+            <td>@Html.DisplayFor(modelItem => item.Postitoimipaikat.Postitoimipaikka)</td>
+            <td>@Html.ValueFor(modelItem => item.Tilauspvm)</td>
+            <td>@Html.ValueFor(modelItem => item.Toimituspvm)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.TilausID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.TilausID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.TilausID })
+            </td>
+        </tr>
     }
 
 </table>

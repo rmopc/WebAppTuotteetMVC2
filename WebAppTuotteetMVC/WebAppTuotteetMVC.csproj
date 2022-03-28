@@ -2213,6 +2213,7 @@
     <Content Include="Views\Tilaukset\_ModalEdit.cshtml" />
     <Content Include="Views\Tilaukset\_ModalDelete.cshtml" />
     <Content Include="Views\Statistiikka\Kategoriamyynnit.cshtml" />
+    <Content Include="Views\Tilaukset\_ModalCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

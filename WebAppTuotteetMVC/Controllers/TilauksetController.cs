@@ -270,5 +270,13 @@ namespace WebAppTuotteetMVC.Controllers
 
             return Json(OK, JsonRequestBehavior.AllowGet);
         }
+
+
+        public ActionResult _ModalCreate()
+        {
+            ViewBag.AsiakasID = new SelectList(db.Asiakkaat, "AsiakasID", "Nimi"/*, tilaukset.AsiakasID*/);
+            ViewBag.Postinumero = new SelectList(db.Postitoimipaikat, "Postinumero", "Postitoimipaikka"/*, tilaukset.Postinumero*/);
+            return PartialView();
+        }
     }
 }
