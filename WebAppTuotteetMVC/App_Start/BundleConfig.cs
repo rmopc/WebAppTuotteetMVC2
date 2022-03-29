@@ -25,7 +25,7 @@ namespace WebAppTuotteetMVC
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/chart").Include(
-                "~/Scripts/chart.js"));
+                        "~/Scripts/chart.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",

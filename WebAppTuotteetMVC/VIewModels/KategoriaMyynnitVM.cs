@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace WebAppTuotteetMVC.VIewModels
+namespace WebAppTuotteetMVC.ViewModels
 {
     public class KategoriaMyynnitVM
     {      

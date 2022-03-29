@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace WebAppTuotteetMVC.VIewModels
+namespace WebAppTuotteetMVC.ViewModels
 {
     public class TilausYhteenveto
     {

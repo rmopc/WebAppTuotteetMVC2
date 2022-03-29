@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebAppTuotteetMVC.Models;
-using WebAppTuotteetMVC.VIewModels;
+using WebAppTuotteetMVC.ViewModels;
 
 namespace WebAppTuotteetMVC.Controllers
 {
