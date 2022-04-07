@@ -45,5 +45,33 @@ namespace WebAppTuotteetMVC.Controllers
 
             return View();
         }
+
+        public ActionResult TopMyynnit()
+        {
+            string topNimiLista;
+            string topMyynnitLista;
+
+            List<KategoriaMyynnitVM> TopTuoteMyynnit = new List<KategoriaMyynnitVM>();
+
+            var topMyyntiData = from tm in db.KaikkiMyynnit
+                                       select tm;
+
+            foreach (Kategoriamyynnit katmyynnit in topMyyntiData)
+            {
+                KategoriaMyynnitVM yksiMyyntiRivi = new KategoriaMyynnitVM();
+                yksiMyyntiRivi.KategoriaNimi = katmyynnit.KategoriaNimi;
+                yksiMyyntiRivi.KategoriaTuoteMyynnit = (int?)katmyynnit.KategoriaTuoteMyynnit;
+
+                TopTuoteMyynnit.Add(yksiMyyntiRivi);
+            }
+
+            topNimiLista = "'" + string.Join("','", TopTuoteMyynnit.Select(n => n.KategoriaNimi).ToList()) + "'";
+            topMyynnitLista = string.Join(",", TopTuoteMyynnit.Select(n => n.KategoriaTuoteMyynnit.ToString()).ToList());
+
+            ViewBag.kategoriaNimi = topNimiLista;
+            ViewBag.kategoriaMyynnit = topMyynnitLista;
+
+            return View();
+        }
     }
 }

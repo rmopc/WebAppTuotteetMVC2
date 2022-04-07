@@ -14,5 +14,7 @@ namespace WebAppTuotteetMVC.ViewModels
         public Nullable<decimal> KategoriaTuoteMyynnit { get; set; }
         public string Nimi { get; set; }
         public Nullable<decimal> TuoteMyynnit { get; set; }
+
+        public Nullable<decimal> MyytyYhteensä { get; set; }
     }
 }
