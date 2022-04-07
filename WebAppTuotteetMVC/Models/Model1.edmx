@@ -64,10 +64,10 @@
             <PropertyRef Name="TilausriviID" />
           </Key>
           <Property Name="TilausriviID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TilausID" Type="int" />
-          <Property Name="TuoteID" Type="int" />
-          <Property Name="Maara" Type="int" />
-          <Property Name="Ahinta" Type="numeric" Precision="5" Scale="2" />
+          <Property Name="TilausID" Type="int" Nullable="false" />
+          <Property Name="TuoteID" Type="int" Nullable="false" />
+          <Property Name="Maara" Type="int" Nullable="false" />
+          <Property Name="Ahinta" Type="decimal" Precision="5" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="Tuotteet">
           <Key>
@@ -75,10 +75,22 @@
           </Key>
           <Property Name="TuoteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nimi" Type="varchar" MaxLength="50" />
-          <Property Name="Ahinta" Type="numeric" Precision="7" Scale="2" />
+          <Property Name="Ahinta" Type="decimal" Precision="7" Scale="2" />
           <Property Name="Kuva" Type="image" />
           <Property Name="ImageLink" Type="nvarchar" MaxLength="200" />
           <Property Name="KategoriaID" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TuoteDemoRonie.dbo.KaikkiMyynnit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="KaikkiMyynnit">
+          <Key>
+            <PropertyRef Name="rowid" />
+            <PropertyRef Name="TuoteID" />
+          </Key>
+          <Property Name="rowid" Type="bigint" Nullable="false" />
+          <Property Name="TuoteID" Type="int" Nullable="false" />
+          <Property Name="Nimi" Type="varchar" MaxLength="50" />
+          <Property Name="MyytyYhteensä" Type="decimal" Precision="38" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'TuoteDemoRonie.dbo.Kategoriamyynnit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -88,7 +100,7 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.Kategoriamyynnit' does not have
           </Key>
           <Property Name="rowid" Type="bigint" Nullable="false" />
           <Property Name="KategoriaNimi" Type="nvarchar" MaxLength="15" />
-          <Property Name="KategoriaTuoteMyynnit" Type="numeric" Precision="38" Scale="2" />
+          <Property Name="KategoriaTuoteMyynnit" Type="decimal" Precision="38" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -99,7 +111,7 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           <Property Name="rowid" Type="bigint" Nullable="false" />
           <Property Name="KategoriaNimi" Type="nvarchar" MaxLength="15" />
           <Property Name="Nimi" Type="varchar" MaxLength="50" />
-          <Property Name="TuoteMyynnit" Type="numeric" Precision="38" Scale="2" />
+          <Property Name="TuoteMyynnit" Type="decimal" Precision="38" Scale="2" />
         </EntityType>
         <Association Name="FK_Asiakkaat_Postitoimipaikat">
           <End Role="Postitoimipaikat" Type="Self.Postitoimipaikat" Multiplicity="0..1" />
@@ -138,7 +150,7 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Tilausrivit_Tilaukset">
-          <End Role="Tilaukset" Type="Self.Tilaukset" Multiplicity="0..1" />
+          <End Role="Tilaukset" Type="Self.Tilaukset" Multiplicity="1" />
           <End Role="Tilausrivit" Type="Self.Tilausrivit" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tilaukset">
@@ -150,7 +162,7 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Tilausrivit_Tuotteet">
-          <End Role="Tuotteet" Type="Self.Tuotteet" Multiplicity="0..1" />
+          <End Role="Tuotteet" Type="Self.Tuotteet" Multiplicity="1" />
           <End Role="Tilausrivit" Type="Self.Tilausrivit" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tuotteet">
@@ -182,6 +194,14 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           <EntitySet Name="Tilaukset" EntityType="Self.Tilaukset" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tilausrivit" EntityType="Self.Tilausrivit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tuotteet" EntityType="Self.Tuotteet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KaikkiMyynnit" EntityType="Self.KaikkiMyynnit" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [KaikkiMyynnit].[rowid] AS [rowid], 
+    [KaikkiMyynnit].[TuoteID] AS [TuoteID], 
+    [KaikkiMyynnit].[Nimi] AS [Nimi], 
+    [KaikkiMyynnit].[MyytyYhteensä] AS [MyytyYhteensä]
+    FROM [dbo].[KaikkiMyynnit] AS [KaikkiMyynnit]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="Kategoriamyynnit" EntityType="Self.Kategoriamyynnit" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Kategoriamyynnit].[rowid] AS [rowid], 
@@ -226,6 +246,43 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TuoteDemoRonieModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TilausDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Asiakkaat" EntityType="TuoteDemoRonieModel.Asiakkaat" />
+          <EntitySet Name="Henkilot" EntityType="TuoteDemoRonieModel.Henkilot" />
+          <EntitySet Name="Kategoriat" EntityType="TuoteDemoRonieModel.Kategoriat" />
+          <EntitySet Name="Logins" EntityType="TuoteDemoRonieModel.Logins" />
+          <EntitySet Name="Postitoimipaikat" EntityType="TuoteDemoRonieModel.Postitoimipaikat" />
+          <EntitySet Name="Tilaukset" EntityType="TuoteDemoRonieModel.Tilaukset" />
+          <EntitySet Name="Tilausrivit" EntityType="TuoteDemoRonieModel.Tilausrivit" />
+          <EntitySet Name="Tuotteet" EntityType="TuoteDemoRonieModel.Tuotteet" />
+          <EntitySet Name="KaikkiMyynnit" EntityType="TuoteDemoRonieModel.KaikkiMyynnit" />
+          <EntitySet Name="Kategoriamyynnit" EntityType="TuoteDemoRonieModel.Kategoriamyynnit" />
+          <EntitySet Name="KategoriaMyynti" EntityType="TuoteDemoRonieModel.KategoriaMyynti" />
+          <AssociationSet Name="FK_Asiakkaat_Postitoimipaikat" Association="TuoteDemoRonieModel.FK_Asiakkaat_Postitoimipaikat">
+            <End Role="Postitoimipaikat" EntitySet="Postitoimipaikat" />
+            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tilaukset_Asiakkaat" Association="TuoteDemoRonieModel.FK_Tilaukset_Asiakkaat">
+            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
+            <End Role="Tilaukset" EntitySet="Tilaukset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tuote_Kategoria" Association="TuoteDemoRonieModel.FK_Tuote_Kategoria">
+            <End Role="Kategoriat" EntitySet="Kategoriat" />
+            <End Role="Tuotteet" EntitySet="Tuotteet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tilaukset_Postitoimipaikat" Association="TuoteDemoRonieModel.FK_Tilaukset_Postitoimipaikat">
+            <End Role="Postitoimipaikat" EntitySet="Postitoimipaikat" />
+            <End Role="Tilaukset" EntitySet="Tilaukset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tilausrivit_Tilaukset" Association="TuoteDemoRonieModel.FK_Tilausrivit_Tilaukset">
+            <End Role="Tilaukset" EntitySet="Tilaukset" />
+            <End Role="Tilausrivit" EntitySet="Tilausrivit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tilausrivit_Tuotteet" Association="TuoteDemoRonieModel.FK_Tilausrivit_Tuotteet">
+            <End Role="Tuotteet" EntitySet="Tuotteet" />
+            <End Role="Tilausrivit" EntitySet="Tilausrivit" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Asiakkaat">
           <Key>
             <PropertyRef Name="AsiakasID" />
@@ -234,8 +291,8 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           <Property Name="Nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Osoite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Postinumero" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="Postitoimipaikat" Relationship="Self.FK_Asiakkaat_Postitoimipaikat" FromRole="Asiakkaat" ToRole="Postitoimipaikat" />
-          <NavigationProperty Name="Tilaukset" Relationship="Self.FK_Tilaukset_Asiakkaat" FromRole="Asiakkaat" ToRole="Tilaukset" />
+          <NavigationProperty Name="Postitoimipaikat" Relationship="TuoteDemoRonieModel.FK_Asiakkaat_Postitoimipaikat" FromRole="Asiakkaat" ToRole="Postitoimipaikat" />
+          <NavigationProperty Name="Tilaukset" Relationship="TuoteDemoRonieModel.FK_Tilaukset_Asiakkaat" FromRole="Asiakkaat" ToRole="Tilaukset" />
         </EntityType>
         <EntityType Name="Henkilot">
           <Key>
@@ -255,24 +312,24 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           </Key>
           <Property Name="KategoriaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="KategoriaNimi" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Tuotteet" Relationship="Self.FK_Tuote_Kategoria" FromRole="Kategoriat" ToRole="Tuotteet" />
+          <NavigationProperty Name="Tuotteet" Relationship="TuoteDemoRonieModel.FK_Tuote_Kategoria" FromRole="Kategoriat" ToRole="Tuotteet" />
         </EntityType>
         <EntityType Name="Logins">
           <Key>
             <PropertyRef Name="LoginId" />
           </Key>
           <Property Name="LoginId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PassWord" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PassWord" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Postitoimipaikat">
           <Key>
             <PropertyRef Name="Postinumero" />
           </Key>
-          <Property Name="Postinumero" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Postinumero" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
           <Property Name="Postitoimipaikka" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Asiakkaat" Relationship="Self.FK_Asiakkaat_Postitoimipaikat" FromRole="Postitoimipaikat" ToRole="Asiakkaat" />
-          <NavigationProperty Name="Tilaukset" Relationship="Self.FK_Tilaukset_Postitoimipaikat" FromRole="Postitoimipaikat" ToRole="Tilaukset" />
+          <NavigationProperty Name="Asiakkaat" Relationship="TuoteDemoRonieModel.FK_Asiakkaat_Postitoimipaikat" FromRole="Postitoimipaikat" ToRole="Asiakkaat" />
+          <NavigationProperty Name="Tilaukset" Relationship="TuoteDemoRonieModel.FK_Tilaukset_Postitoimipaikat" FromRole="Postitoimipaikat" ToRole="Tilaukset" />
         </EntityType>
         <EntityType Name="Tilaukset">
           <Key>
@@ -284,21 +341,21 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           <Property Name="Postinumero" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
           <Property Name="Tilauspvm" Type="DateTime" Precision="3" />
           <Property Name="Toimituspvm" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Asiakkaat" Relationship="Self.FK_Tilaukset_Asiakkaat" FromRole="Tilaukset" ToRole="Asiakkaat" />
-          <NavigationProperty Name="Postitoimipaikat" Relationship="Self.FK_Tilaukset_Postitoimipaikat" FromRole="Tilaukset" ToRole="Postitoimipaikat" />
-          <NavigationProperty Name="Tilausrivit" Relationship="Self.FK_Tilausrivit_Tilaukset" FromRole="Tilaukset" ToRole="Tilausrivit" />
+          <NavigationProperty Name="Asiakkaat" Relationship="TuoteDemoRonieModel.FK_Tilaukset_Asiakkaat" FromRole="Tilaukset" ToRole="Asiakkaat" />
+          <NavigationProperty Name="Postitoimipaikat" Relationship="TuoteDemoRonieModel.FK_Tilaukset_Postitoimipaikat" FromRole="Tilaukset" ToRole="Postitoimipaikat" />
+          <NavigationProperty Name="Tilausrivit" Relationship="TuoteDemoRonieModel.FK_Tilausrivit_Tilaukset" FromRole="Tilaukset" ToRole="Tilausrivit" />
         </EntityType>
         <EntityType Name="Tilausrivit">
           <Key>
             <PropertyRef Name="TilausriviID" />
           </Key>
           <Property Name="TilausriviID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TilausID" Type="Int32" />
-          <Property Name="TuoteID" Type="Int32" />
-          <Property Name="Maara" Type="Int32" />
-          <Property Name="Ahinta" Type="Decimal" Precision="5" Scale="2" />
-          <NavigationProperty Name="Tilaukset" Relationship="Self.FK_Tilausrivit_Tilaukset" FromRole="Tilausrivit" ToRole="Tilaukset" />
-          <NavigationProperty Name="Tuotteet" Relationship="Self.FK_Tilausrivit_Tuotteet" FromRole="Tilausrivit" ToRole="Tuotteet" />
+          <Property Name="TilausID" Type="Int32" Nullable="false" />
+          <Property Name="TuoteID" Type="Int32" Nullable="false" />
+          <Property Name="Maara" Type="Int32" Nullable="false" />
+          <Property Name="Ahinta" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <NavigationProperty Name="Tilaukset" Relationship="TuoteDemoRonieModel.FK_Tilausrivit_Tilaukset" FromRole="Tilausrivit" ToRole="Tilaukset" />
+          <NavigationProperty Name="Tuotteet" Relationship="TuoteDemoRonieModel.FK_Tilausrivit_Tuotteet" FromRole="Tilausrivit" ToRole="Tuotteet" />
         </EntityType>
         <EntityType Name="Tuotteet">
           <Key>
@@ -310,117 +367,19 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           <Property Name="Kuva" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="ImageLink" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="KategoriaID" Type="Int32" />
-          <NavigationProperty Name="Kategoriat" Relationship="Self.FK_Tuote_Kategoria" FromRole="Tuotteet" ToRole="Kategoriat" />
-          <NavigationProperty Name="Tilausrivit" Relationship="Self.FK_Tilausrivit_Tuotteet" FromRole="Tuotteet" ToRole="Tilausrivit" />
+          <NavigationProperty Name="Kategoriat" Relationship="TuoteDemoRonieModel.FK_Tuote_Kategoria" FromRole="Tuotteet" ToRole="Kategoriat" />
+          <NavigationProperty Name="Tilausrivit" Relationship="TuoteDemoRonieModel.FK_Tilausrivit_Tuotteet" FromRole="Tuotteet" ToRole="Tilausrivit" />
         </EntityType>
-        <Association Name="FK_Asiakkaat_Postitoimipaikat">
-          <End Role="Postitoimipaikat" Type="Self.Postitoimipaikat" Multiplicity="0..1" />
-          <End Role="Asiakkaat" Type="Self.Asiakkaat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Postitoimipaikat">
-              <PropertyRef Name="Postinumero" />
-            </Principal>
-            <Dependent Role="Asiakkaat">
-              <PropertyRef Name="Postinumero" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tilaukset_Asiakkaat">
-          <End Role="Asiakkaat" Type="Self.Asiakkaat" Multiplicity="0..1" />
-          <End Role="Tilaukset" Type="Self.Tilaukset" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Asiakkaat">
-              <PropertyRef Name="AsiakasID" />
-            </Principal>
-            <Dependent Role="Tilaukset">
-              <PropertyRef Name="AsiakasID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tuote_Kategoria">
-          <End Role="Kategoriat" Type="Self.Kategoriat" Multiplicity="0..1" />
-          <End Role="Tuotteet" Type="Self.Tuotteet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Kategoriat">
-              <PropertyRef Name="KategoriaID" />
-            </Principal>
-            <Dependent Role="Tuotteet">
-              <PropertyRef Name="KategoriaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tilaukset_Postitoimipaikat">
-          <End Role="Postitoimipaikat" Type="Self.Postitoimipaikat" Multiplicity="0..1" />
-          <End Role="Tilaukset" Type="Self.Tilaukset" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Postitoimipaikat">
-              <PropertyRef Name="Postinumero" />
-            </Principal>
-            <Dependent Role="Tilaukset">
-              <PropertyRef Name="Postinumero" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tilausrivit_Tilaukset">
-          <End Role="Tilaukset" Type="Self.Tilaukset" Multiplicity="0..1" />
-          <End Role="Tilausrivit" Type="Self.Tilausrivit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tilaukset">
-              <PropertyRef Name="TilausID" />
-            </Principal>
-            <Dependent Role="Tilausrivit">
-              <PropertyRef Name="TilausID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tilausrivit_Tuotteet">
-          <End Role="Tuotteet" Type="Self.Tuotteet" Multiplicity="0..1" />
-          <End Role="Tilausrivit" Type="Self.Tilausrivit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tuotteet">
-              <PropertyRef Name="TuoteID" />
-            </Principal>
-            <Dependent Role="Tilausrivit">
-              <PropertyRef Name="TuoteID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="TilausDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Asiakkaat" EntityType="Self.Asiakkaat" />
-          <EntitySet Name="Henkilot" EntityType="Self.Henkilot" />
-          <EntitySet Name="Kategoriat" EntityType="Self.Kategoriat" />
-          <EntitySet Name="Logins" EntityType="Self.Logins" />
-          <EntitySet Name="Postitoimipaikat" EntityType="Self.Postitoimipaikat" />
-          <EntitySet Name="Tilaukset" EntityType="Self.Tilaukset" />
-          <EntitySet Name="Tilausrivit" EntityType="Self.Tilausrivit" />
-          <EntitySet Name="Tuotteet" EntityType="Self.Tuotteet" />
-          <AssociationSet Name="FK_Asiakkaat_Postitoimipaikat" Association="Self.FK_Asiakkaat_Postitoimipaikat">
-            <End Role="Postitoimipaikat" EntitySet="Postitoimipaikat" />
-            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tilaukset_Asiakkaat" Association="Self.FK_Tilaukset_Asiakkaat">
-            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
-            <End Role="Tilaukset" EntitySet="Tilaukset" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tuote_Kategoria" Association="Self.FK_Tuote_Kategoria">
-            <End Role="Kategoriat" EntitySet="Kategoriat" />
-            <End Role="Tuotteet" EntitySet="Tuotteet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tilaukset_Postitoimipaikat" Association="Self.FK_Tilaukset_Postitoimipaikat">
-            <End Role="Postitoimipaikat" EntitySet="Postitoimipaikat" />
-            <End Role="Tilaukset" EntitySet="Tilaukset" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tilausrivit_Tilaukset" Association="Self.FK_Tilausrivit_Tilaukset">
-            <End Role="Tilaukset" EntitySet="Tilaukset" />
-            <End Role="Tilausrivit" EntitySet="Tilausrivit" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tilausrivit_Tuotteet" Association="Self.FK_Tilausrivit_Tuotteet">
-            <End Role="Tuotteet" EntitySet="Tuotteet" />
-            <End Role="Tilausrivit" EntitySet="Tilausrivit" />
-          </AssociationSet>
-          <EntitySet Name="Kategoriamyynnit" EntityType="TuoteDemoRonieModel.Kategoriamyynnit" />
-          <EntitySet Name="KategoriaMyynti" EntityType="TuoteDemoRonieModel.KategoriaMyynti" />
-        </EntityContainer>
+        <EntityType Name="KaikkiMyynnit">
+          <Key>
+            <PropertyRef Name="rowid" />
+            <PropertyRef Name="TuoteID" />
+          </Key>
+          <Property Name="rowid" Type="Int64" Nullable="false" />
+          <Property Name="TuoteID" Type="Int32" Nullable="false" />
+          <Property Name="Nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MyytyYhteensä" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
         <EntityType Name="Kategoriamyynnit">
           <Key>
             <PropertyRef Name="rowid" />
@@ -438,7 +397,79 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           <Property Name="Nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TuoteMyynnit" Type="Decimal" Precision="38" Scale="2" />
         </EntityType>
-      </Schema>
+        <Association Name="FK_Asiakkaat_Postitoimipaikat">
+          <End Type="TuoteDemoRonieModel.Postitoimipaikat" Role="Postitoimipaikat" Multiplicity="0..1" />
+          <End Type="TuoteDemoRonieModel.Asiakkaat" Role="Asiakkaat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Postitoimipaikat">
+              <PropertyRef Name="Postinumero" />
+            </Principal>
+            <Dependent Role="Asiakkaat">
+              <PropertyRef Name="Postinumero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tilaukset_Asiakkaat">
+          <End Type="TuoteDemoRonieModel.Asiakkaat" Role="Asiakkaat" Multiplicity="0..1" />
+          <End Type="TuoteDemoRonieModel.Tilaukset" Role="Tilaukset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asiakkaat">
+              <PropertyRef Name="AsiakasID" />
+            </Principal>
+            <Dependent Role="Tilaukset">
+              <PropertyRef Name="AsiakasID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tuote_Kategoria">
+          <End Type="TuoteDemoRonieModel.Kategoriat" Role="Kategoriat" Multiplicity="0..1" />
+          <End Type="TuoteDemoRonieModel.Tuotteet" Role="Tuotteet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriat">
+              <PropertyRef Name="KategoriaID" />
+            </Principal>
+            <Dependent Role="Tuotteet">
+              <PropertyRef Name="KategoriaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tilaukset_Postitoimipaikat">
+          <End Type="TuoteDemoRonieModel.Postitoimipaikat" Role="Postitoimipaikat" Multiplicity="0..1" />
+          <End Type="TuoteDemoRonieModel.Tilaukset" Role="Tilaukset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Postitoimipaikat">
+              <PropertyRef Name="Postinumero" />
+            </Principal>
+            <Dependent Role="Tilaukset">
+              <PropertyRef Name="Postinumero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tilausrivit_Tilaukset">
+          <End Type="TuoteDemoRonieModel.Tilaukset" Role="Tilaukset" Multiplicity="1" />
+          <End Type="TuoteDemoRonieModel.Tilausrivit" Role="Tilausrivit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tilaukset">
+              <PropertyRef Name="TilausID" />
+            </Principal>
+            <Dependent Role="Tilausrivit">
+              <PropertyRef Name="TilausID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tilausrivit_Tuotteet">
+          <End Type="TuoteDemoRonieModel.Tuotteet" Role="Tuotteet" Multiplicity="1" />
+          <End Type="TuoteDemoRonieModel.Tilausrivit" Role="Tilausrivit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tuotteet">
+              <PropertyRef Name="TuoteID" />
+            </Principal>
+            <Dependent Role="Tilausrivit">
+              <PropertyRef Name="TuoteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -447,83 +478,93 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           <EntitySetMapping Name="Asiakkaat">
             <EntityTypeMapping TypeName="TuoteDemoRonieModel.Asiakkaat">
               <MappingFragment StoreEntitySet="Asiakkaat">
-                <ScalarProperty Name="AsiakasID" ColumnName="AsiakasID" />
-                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
-                <ScalarProperty Name="Osoite" ColumnName="Osoite" />
                 <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
+                <ScalarProperty Name="Osoite" ColumnName="Osoite" />
+                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
+                <ScalarProperty Name="AsiakasID" ColumnName="AsiakasID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Henkilot">
             <EntityTypeMapping TypeName="TuoteDemoRonieModel.Henkilot">
               <MappingFragment StoreEntitySet="Henkilot">
-                <ScalarProperty Name="Henkilo_id" ColumnName="Henkilo_id" />
-                <ScalarProperty Name="Etunimi" ColumnName="Etunimi" />
-                <ScalarProperty Name="Sukunimi" ColumnName="Sukunimi" />
-                <ScalarProperty Name="Osoite" ColumnName="Osoite" />
-                <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
-                <ScalarProperty Name="Postitoimipaikka" ColumnName="Postitoimipaikka" />
                 <ScalarProperty Name="Sahkoposti" ColumnName="Sahkoposti" />
+                <ScalarProperty Name="Postitoimipaikka" ColumnName="Postitoimipaikka" />
+                <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
+                <ScalarProperty Name="Osoite" ColumnName="Osoite" />
+                <ScalarProperty Name="Sukunimi" ColumnName="Sukunimi" />
+                <ScalarProperty Name="Etunimi" ColumnName="Etunimi" />
+                <ScalarProperty Name="Henkilo_id" ColumnName="Henkilo_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Kategoriat">
             <EntityTypeMapping TypeName="TuoteDemoRonieModel.Kategoriat">
               <MappingFragment StoreEntitySet="Kategoriat">
-                <ScalarProperty Name="KategoriaID" ColumnName="KategoriaID" />
                 <ScalarProperty Name="KategoriaNimi" ColumnName="KategoriaNimi" />
+                <ScalarProperty Name="KategoriaID" ColumnName="KategoriaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Logins">
             <EntityTypeMapping TypeName="TuoteDemoRonieModel.Logins">
               <MappingFragment StoreEntitySet="Logins">
-                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Postitoimipaikat">
             <EntityTypeMapping TypeName="TuoteDemoRonieModel.Postitoimipaikat">
               <MappingFragment StoreEntitySet="Postitoimipaikat">
-                <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
                 <ScalarProperty Name="Postitoimipaikka" ColumnName="Postitoimipaikka" />
+                <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tilaukset">
             <EntityTypeMapping TypeName="TuoteDemoRonieModel.Tilaukset">
               <MappingFragment StoreEntitySet="Tilaukset">
-                <ScalarProperty Name="TilausID" ColumnName="TilausID" />
-                <ScalarProperty Name="AsiakasID" ColumnName="AsiakasID" />
-                <ScalarProperty Name="Toimitusosoite" ColumnName="Toimitusosoite" />
-                <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
-                <ScalarProperty Name="Tilauspvm" ColumnName="Tilauspvm" />
                 <ScalarProperty Name="Toimituspvm" ColumnName="Toimituspvm" />
+                <ScalarProperty Name="Tilauspvm" ColumnName="Tilauspvm" />
+                <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
+                <ScalarProperty Name="Toimitusosoite" ColumnName="Toimitusosoite" />
+                <ScalarProperty Name="AsiakasID" ColumnName="AsiakasID" />
+                <ScalarProperty Name="TilausID" ColumnName="TilausID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tilausrivit">
             <EntityTypeMapping TypeName="TuoteDemoRonieModel.Tilausrivit">
               <MappingFragment StoreEntitySet="Tilausrivit">
-                <ScalarProperty Name="TilausriviID" ColumnName="TilausriviID" />
-                <ScalarProperty Name="TilausID" ColumnName="TilausID" />
-                <ScalarProperty Name="TuoteID" ColumnName="TuoteID" />
-                <ScalarProperty Name="Maara" ColumnName="Maara" />
                 <ScalarProperty Name="Ahinta" ColumnName="Ahinta" />
+                <ScalarProperty Name="Maara" ColumnName="Maara" />
+                <ScalarProperty Name="TuoteID" ColumnName="TuoteID" />
+                <ScalarProperty Name="TilausID" ColumnName="TilausID" />
+                <ScalarProperty Name="TilausriviID" ColumnName="TilausriviID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tuotteet">
             <EntityTypeMapping TypeName="TuoteDemoRonieModel.Tuotteet">
               <MappingFragment StoreEntitySet="Tuotteet">
-                <ScalarProperty Name="TuoteID" ColumnName="TuoteID" />
-                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
-                <ScalarProperty Name="Ahinta" ColumnName="Ahinta" />
-                <ScalarProperty Name="Kuva" ColumnName="Kuva" />
-                <ScalarProperty Name="ImageLink" ColumnName="ImageLink" />
                 <ScalarProperty Name="KategoriaID" ColumnName="KategoriaID" />
+                <ScalarProperty Name="ImageLink" ColumnName="ImageLink" />
+                <ScalarProperty Name="Kuva" ColumnName="Kuva" />
+                <ScalarProperty Name="Ahinta" ColumnName="Ahinta" />
+                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
+                <ScalarProperty Name="TuoteID" ColumnName="TuoteID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KaikkiMyynnit">
+            <EntityTypeMapping TypeName="TuoteDemoRonieModel.KaikkiMyynnit">
+              <MappingFragment StoreEntitySet="KaikkiMyynnit">
+                <ScalarProperty Name="MyytyYhteensä" ColumnName="MyytyYhteensä" />
+                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
+                <ScalarProperty Name="TuoteID" ColumnName="TuoteID" />
+                <ScalarProperty Name="rowid" ColumnName="rowid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -5,22 +5,23 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="b59bf06a3f734cb584dea61ca2b7d362" Name="Diagram1">
-        <EntityTypeShape EntityType="TuoteDemoRonieModel.Asiakkaat" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TuoteDemoRonieModel.Henkilot" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TuoteDemoRonieModel.Kategoriat" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TuoteDemoRonieModel.Logins" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TuoteDemoRonieModel.Postitoimipaikat" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TuoteDemoRonieModel.Tilaukset" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="TuoteDemoRonieModel.Tilausrivit" Width="1.5" PointX="7.5" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="TuoteDemoRonieModel.Tuotteet" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
-        <AssociationConnector Association="TuoteDemoRonieModel.FK_Asiakkaat_Postitoimipaikat" ManuallyRouted="false" />
-        <AssociationConnector Association="TuoteDemoRonieModel.FK_Tilaukset_Asiakkaat" ManuallyRouted="false" />
-        <AssociationConnector Association="TuoteDemoRonieModel.FK_Tuote_Kategoria" ManuallyRouted="false" />
-        <AssociationConnector Association="TuoteDemoRonieModel.FK_Tilaukset_Postitoimipaikat" ManuallyRouted="false" />
-        <AssociationConnector Association="TuoteDemoRonieModel.FK_Tilausrivit_Tilaukset" ManuallyRouted="false" />
-        <AssociationConnector Association="TuoteDemoRonieModel.FK_Tilausrivit_Tuotteet" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="TuoteDemoRonieModel.Kategoriamyynnit" Width="1.5" PointX="3.375" PointY="8.75" />
-        <EntityTypeShape EntityType="TuoteDemoRonieModel.KategoriaMyynti" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.Asiakkaat" Width="1.5" PointX="3" PointY="1.25" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.Henkilot" Width="1.5" PointX="7.75" PointY="4.75" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.Kategoriat" Width="1.5" PointX="3" PointY="5.5" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.Logins" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.Postitoimipaikat" Width="1.5" PointX="0.75" PointY="1.5" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.Tilaukset" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.Tilausrivit" Width="1.5" PointX="7.5" PointY="1.125" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.Tuotteet" Width="1.5" PointX="5.25" PointY="5" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.KaikkiMyynnit" Width="1.5" PointX="2.75" PointY="8.75" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.Kategoriamyynnit" Width="1.5" PointX="4.75" PointY="8.75" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.KategoriaMyynti" Width="1.5" PointX="6.75" PointY="8.75" />
+        <AssociationConnector Association="TuoteDemoRonieModel.FK_Asiakkaat_Postitoimipaikat" />
+        <AssociationConnector Association="TuoteDemoRonieModel.FK_Tilaukset_Asiakkaat" />
+        <AssociationConnector Association="TuoteDemoRonieModel.FK_Tuote_Kategoria" />
+        <AssociationConnector Association="TuoteDemoRonieModel.FK_Tilaukset_Postitoimipaikat" />
+        <AssociationConnector Association="TuoteDemoRonieModel.FK_Tilausrivit_Tilaukset" />
+        <AssociationConnector Association="TuoteDemoRonieModel.FK_Tilausrivit_Tuotteet" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

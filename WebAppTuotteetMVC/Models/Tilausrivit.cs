@@ -15,10 +15,10 @@ namespace WebAppTuotteetMVC.Models
     public partial class Tilausrivit
     {
         public int TilausriviID { get; set; }
-        public Nullable<int> TilausID { get; set; }
-        public Nullable<int> TuoteID { get; set; }
-        public Nullable<int> Maara { get; set; }
-        public Nullable<decimal> Ahinta { get; set; }
+        public int TilausID { get; set; }
+        public int TuoteID { get; set; }
+        public int Maara { get; set; }
+        public decimal Ahinta { get; set; }
     
         public virtual Tilaukset Tilaukset { get; set; }
         public virtual Tuotteet Tuotteet { get; set; }

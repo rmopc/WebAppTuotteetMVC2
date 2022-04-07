@@ -56,20 +56,19 @@ namespace WebAppTuotteetMVC.Controllers
             var topMyyntiData = from tm in db.KaikkiMyynnit
                                        select tm;
 
-            foreach (Kategoriamyynnit katmyynnit in topMyyntiData)
+            foreach (KaikkiMyynnit topmyynnit in topMyyntiData)
             {
                 KategoriaMyynnitVM yksiMyyntiRivi = new KategoriaMyynnitVM();
-                yksiMyyntiRivi.KategoriaNimi = katmyynnit.KategoriaNimi;
-                yksiMyyntiRivi.KategoriaTuoteMyynnit = (int?)katmyynnit.KategoriaTuoteMyynnit;
-
+                yksiMyyntiRivi.Nimi = topmyynnit.Nimi;
+                yksiMyyntiRivi.MyytyYhteensä = (decimal)topmyynnit.MyytyYhteensä;
                 TopTuoteMyynnit.Add(yksiMyyntiRivi);
             }
 
-            topNimiLista = "'" + string.Join("','", TopTuoteMyynnit.Select(n => n.KategoriaNimi).ToList()) + "'";
-            topMyynnitLista = string.Join(",", TopTuoteMyynnit.Select(n => n.KategoriaTuoteMyynnit.ToString()).ToList());
+            topNimiLista = "'" + string.Join("','", TopTuoteMyynnit.Select(n => n.Nimi).ToList()) + "'";
+            topMyynnitLista = string.Join(",", TopTuoteMyynnit.Select(n => n.MyytyYhteensä.ToString()).ToList());
 
-            ViewBag.kategoriaNimi = topNimiLista;
-            ViewBag.kategoriaMyynnit = topMyynnitLista;
+            ViewBag.topNimi = topNimiLista;
+            ViewBag.topMyynnit = topMyynnitLista;
 
             return View();
         }

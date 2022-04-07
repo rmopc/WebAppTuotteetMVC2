@@ -11,11 +11,9 @@ namespace WebAppTuotteetMVC.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class KategoriaMyynti
     {
-        [Key]
         public long rowid { get; set; }
         public string KategoriaNimi { get; set; }
         public string Nimi { get; set; }

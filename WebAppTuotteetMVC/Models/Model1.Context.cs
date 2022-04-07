@@ -33,6 +33,7 @@ namespace WebAppTuotteetMVC.Models
         public virtual DbSet<Tilaukset> Tilaukset { get; set; }
         public virtual DbSet<Tilausrivit> Tilausrivit { get; set; }
         public virtual DbSet<Tuotteet> Tuotteet { get; set; }
+        public virtual DbSet<KaikkiMyynnit> KaikkiMyynnit { get; set; }
         public virtual DbSet<Kategoriamyynnit> Kategoriamyynnit { get; set; }
         public virtual DbSet<KategoriaMyynti> KategoriaMyynti { get; set; }
     }

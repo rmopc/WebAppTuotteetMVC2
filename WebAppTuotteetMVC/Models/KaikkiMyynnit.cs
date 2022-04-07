@@ -12,10 +12,11 @@ namespace WebAppTuotteetMVC.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Kategoriamyynnit
+    public partial class KaikkiMyynnit
     {
         public long rowid { get; set; }
-        public string KategoriaNimi { get; set; }
-        public Nullable<decimal> KategoriaTuoteMyynnit { get; set; }
+        public int TuoteID { get; set; }
+        public string Nimi { get; set; }
+        public Nullable<decimal> MyytyYhteensä { get; set; }
     }
 }

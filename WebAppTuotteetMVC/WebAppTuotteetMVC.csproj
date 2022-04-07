@@ -207,6 +207,9 @@
     <Compile Include="Models\Henkilot.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\KaikkiMyynnit.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Kategoriamyynnit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
