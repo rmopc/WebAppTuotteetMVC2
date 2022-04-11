@@ -253,6 +253,7 @@
     <Compile Include="ViewModels\KategoriaMyynnitVM.cs" />
     <Compile Include="ViewModels\OrderRows.cs" />
     <Compile Include="ViewModels\TilausYhteenveto.cs" />
+    <Compile Include="ViewModels\TopSales.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -2217,6 +2218,7 @@
     <Content Include="Views\Tilaukset\_ModalDelete.cshtml" />
     <Content Include="Views\Statistiikka\Kategoriamyynnit.cshtml" />
     <Content Include="Views\Tilaukset\_ModalCreate.cshtml" />
+    <Content Include="Views\Statistiikka\TopMyynnit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

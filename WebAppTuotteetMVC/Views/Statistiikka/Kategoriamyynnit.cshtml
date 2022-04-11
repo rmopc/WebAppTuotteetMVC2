@@ -65,20 +65,21 @@
             }
         });
 
-        var labelTexts = [@Html.Raw(ViewBag.topNimi)];
-        console.log(labelTexts);
-        var dataValues = [@ViewBag.topMyynnit];
-        console.log(dataValues);
+
+        var labelTexts2 = [@Html.Raw(ViewBag.topNimi)];
+        console.log(labelTexts2);
+        var dataValues2 = [@ViewBag.topMyynnit];
+        console.log(dataValues2);
 
         var ctx2 = document.getElementById('barcanvas2').getContext('2d');
         var barcanvas2 = new Chart(ctx2, {
-            type: 'bar',
+            type: 'doughnut',
             data: {
-                labels: labelTexts,
+                labels: labelTexts2,
                 datasets: [{
                     //axis: 'y',
                     label: 'Top Myynnit',
-                    data: dataValues,
+                    data: dataValues2,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
