@@ -195,6 +195,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StatistiikkaController.cs" />
+    <Compile Include="Controllers\TEMPController.cs" />
     <Compile Include="Controllers\TilauksetController.cs" />
     <Compile Include="Controllers\TuotteetController.cs" />
     <Compile Include="Global.asax.cs">
@@ -2219,6 +2220,8 @@
     <Content Include="Views\Statistiikka\Kategoriamyynnit.cshtml" />
     <Content Include="Views\Tilaukset\_ModalCreate.cshtml" />
     <Content Include="Views\Statistiikka\TopMyynnit.cshtml" />
+    <Content Include="Views\TEMP\TopMyynnit2.cshtml" />
+    <Content Include="Views\TEMP\Kategoriamyynnit2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

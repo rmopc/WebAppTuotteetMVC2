@@ -12,9 +12,9 @@
 @section scripts {
     <script type="text/javascript">
 
-        var labelTexts = [@Html.Raw(ViewBag.kategoriaNimi)];
+        var labelTexts = [@Html.Raw(ViewBag.kategoriaNimiT1)];
         console.log(labelTexts);
-        var dataValues = [@ViewBag.kategoriaMyynnit];
+        var dataValues = [@ViewBag.kategoriaMyynnitT1];
         console.log(dataValues);
 
         var ctx = document.getElementById('barcanvas').getContext('2d');
@@ -66,9 +66,9 @@
         });
 
 
-        @*var labelTexts2 = [@Html.Raw(ViewBag.topNimi)];
+        var labelTexts2 = [@Html.Raw(ViewBag.topNimiT1)];
         console.log(labelTexts2);
-        var dataValues2 = [@ViewBag.topMyynnit];
+        var dataValues2 = [@ViewBag.topMyynnitT1];
         console.log(dataValues2);
 
         var ctx2 = document.getElementById('barcanvas2').getContext('2d');
@@ -117,7 +117,7 @@
                     }]
                 }
             }
-        });*@
+        });
 
     </script>
 
@@ -134,11 +134,11 @@
             <canvas id="barcanvas"></canvas>
         </div>
 
-        @*<h2>Top Myynnit</h2>
+        <h2>Top Myynnit</h2>
         <br /><br />
         <div class="col-sm-6">
             <canvas id="barcanvas2" width="400" height="400"></canvas>
-        </div>*@
+        </div>
 
     </div>
     <div style="text-align: center">
