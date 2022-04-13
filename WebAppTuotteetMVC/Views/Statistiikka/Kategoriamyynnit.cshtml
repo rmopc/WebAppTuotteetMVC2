@@ -42,19 +42,19 @@
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)'
                     ],
-                    borderWidth: 1
+                    borderWidth: 2
                 }]
             },
             options: {
-                //indexAxis: 'y',
+                indexAxis: 'y',
                 scales: {
 
-                    //x: {
-                    //    stacked: true
-                    //},
-                    //y: {
-                    //    stacked: true
-                    //},
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    },
 
                     yAxes: [{
                         ticks: {
@@ -66,14 +66,14 @@
         });
 
 
-        @*var labelTexts2 = [@Html.Raw(ViewBag.topNimi)];
+        var labelTexts2 = [@Html.Raw(ViewBag.topNimi)];
         console.log(labelTexts2);
         var dataValues2 = [@ViewBag.topMyynnit];
         console.log(dataValues2);
 
         var ctx2 = document.getElementById('barcanvas2').getContext('2d');
         var barcanvas2 = new Chart(ctx2, {
-            type: 'doughnut',
+            type: 'bar',
             data: {
                 labels: labelTexts2,
                 datasets: [{
@@ -96,7 +96,7 @@
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)'
                     ],
-                    borderWidth: 1
+                    borderWidth: 2
                 }]
             },
             options: {
@@ -117,7 +117,7 @@
                     }]
                 }
             }
-        });*@
+        });
 
     </script>
 
@@ -134,11 +134,11 @@
             <canvas id="barcanvas"></canvas>
         </div>
 
-        @*<h2>Top Myynnit</h2>
+        <h2>Eniten myydyt tuotteet</h2>
         <br /><br />
         <div class="col-sm-6">
             <canvas id="barcanvas2" width="400" height="400"></canvas>
-        </div>*@
+        </div>
 
     </div>
     <div style="text-align: center">

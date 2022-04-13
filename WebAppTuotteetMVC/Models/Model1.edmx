@@ -113,6 +113,17 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           <Property Name="Nimi" Type="varchar" MaxLength="50" />
           <Property Name="TuoteMyynnit" Type="decimal" Precision="38" Scale="2" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TuoteDemoRonie.dbo.ProductsDailySales' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ProductsDailySales">
+          <Key>
+            <PropertyRef Name="rowid" />
+          </Key>
+          <Property Name="rowid" Type="bigint" Nullable="false" />
+          <Property Name="Tilauspvm" Type="datetime" />
+          <Property Name="Nimi" Type="varchar" MaxLength="50" />
+          <Property Name="DailySales" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
         <Association Name="FK_Asiakkaat_Postitoimipaikat">
           <End Role="Postitoimipaikat" Type="Self.Postitoimipaikat" Multiplicity="0..1" />
           <End Role="Asiakkaat" Type="Self.Asiakkaat" Multiplicity="*" />
@@ -217,6 +228,14 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
     [KategoriaMyynti].[TuoteMyynnit] AS [TuoteMyynnit]
     FROM [dbo].[KategoriaMyynti] AS [KategoriaMyynti]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ProductsDailySales" EntityType="Self.ProductsDailySales" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ProductsDailySales].[rowid] AS [rowid], 
+    [ProductsDailySales].[Tilauspvm] AS [Tilauspvm], 
+    [ProductsDailySales].[Nimi] AS [Nimi], 
+    [ProductsDailySales].[DailySales] AS [DailySales]
+    FROM [dbo].[ProductsDailySales] AS [ProductsDailySales]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Asiakkaat_Postitoimipaikat" Association="Self.FK_Asiakkaat_Postitoimipaikat">
             <End Role="Postitoimipaikat" EntitySet="Postitoimipaikat" />
             <End Role="Asiakkaat" EntitySet="Asiakkaat" />
@@ -258,6 +277,7 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           <EntitySet Name="KaikkiMyynnit" EntityType="TuoteDemoRonieModel.KaikkiMyynnit" />
           <EntitySet Name="Kategoriamyynnit" EntityType="TuoteDemoRonieModel.Kategoriamyynnit" />
           <EntitySet Name="KategoriaMyynti" EntityType="TuoteDemoRonieModel.KategoriaMyynti" />
+          <EntitySet Name="ProductsDailySales" EntityType="TuoteDemoRonieModel.ProductsDailySales" />
           <AssociationSet Name="FK_Asiakkaat_Postitoimipaikat" Association="TuoteDemoRonieModel.FK_Asiakkaat_Postitoimipaikat">
             <End Role="Postitoimipaikat" EntitySet="Postitoimipaikat" />
             <End Role="Asiakkaat" EntitySet="Asiakkaat" />
@@ -396,6 +416,15 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
           <Property Name="KategoriaNimi" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="Nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TuoteMyynnit" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="ProductsDailySales">
+          <Key>
+            <PropertyRef Name="rowid" />
+          </Key>
+          <Property Name="rowid" Type="Int64" Nullable="false" />
+          <Property Name="Tilauspvm" Type="DateTime" Precision="3" />
+          <Property Name="Nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DailySales" Type="Decimal" Precision="38" Scale="2" />
         </EntityType>
         <Association Name="FK_Asiakkaat_Postitoimipaikat">
           <End Type="TuoteDemoRonieModel.Postitoimipaikat" Role="Postitoimipaikat" Multiplicity="0..1" />
@@ -583,6 +612,16 @@ warning 6002: The table/view 'TuoteDemoRonie.dbo.KategoriaMyynti' does not have 
                 <ScalarProperty Name="TuoteMyynnit" ColumnName="TuoteMyynnit" />
                 <ScalarProperty Name="Nimi" ColumnName="Nimi" />
                 <ScalarProperty Name="KategoriaNimi" ColumnName="KategoriaNimi" />
+                <ScalarProperty Name="rowid" ColumnName="rowid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductsDailySales">
+            <EntityTypeMapping TypeName="TuoteDemoRonieModel.ProductsDailySales">
+              <MappingFragment StoreEntitySet="ProductsDailySales">
+                <ScalarProperty Name="DailySales" ColumnName="DailySales" />
+                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
+                <ScalarProperty Name="Tilauspvm" ColumnName="Tilauspvm" />
                 <ScalarProperty Name="rowid" ColumnName="rowid" />
               </MappingFragment>
             </EntityTypeMapping>

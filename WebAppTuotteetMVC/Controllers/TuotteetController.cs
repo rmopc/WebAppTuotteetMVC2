@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using WebAppTuotteetMVC.Models;
 using PagedList;
+using WebAppTuotteetMVC.ViewModels;
+using System.Data.Entity.SqlServer;
 
 namespace WebAppTuotteetMVC.Controllers
 {
@@ -254,6 +256,26 @@ namespace WebAppTuotteetMVC.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult _ProductSalesPerDate(string Nimi)
+        {
+
+            if (String.IsNullOrEmpty(Nimi)) Nimi = "Kastelukannu";
+
+            List<DailyProductSales> dailyproductsalesList = new List<DailyProductSales>();            
+
+            var orderSummary = from pds in db.ProductsDailySales
+                               where pds.Nimi == Nimi
+                               orderby pds.Tilauspvm
+                               select new DailyProductSales
+                               {
+                                   Tilauspvm = SqlFunctions.DateName("year", pds.Tilauspvm) + "." + SqlFunctions.DateName("MM", pds.Tilauspvm) + "." + SqlFunctions.DateName("day", pds.Tilauspvm),
+                                   DailySales = (float)pds.DailySales,
+                                   Nimi = pds.Nimi
+                               };
+
+            return Json(orderSummary, JsonRequestBehavior.AllowGet);
         }
     }
 }

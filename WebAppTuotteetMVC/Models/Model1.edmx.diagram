@@ -16,6 +16,7 @@
         <EntityTypeShape EntityType="TuoteDemoRonieModel.KaikkiMyynnit" Width="1.5" PointX="2.75" PointY="8.75" />
         <EntityTypeShape EntityType="TuoteDemoRonieModel.Kategoriamyynnit" Width="1.5" PointX="4.75" PointY="8.75" />
         <EntityTypeShape EntityType="TuoteDemoRonieModel.KategoriaMyynti" Width="1.5" PointX="6.75" PointY="8.75" />
+        <EntityTypeShape EntityType="TuoteDemoRonieModel.ProductsDailySales" Width="1.5" PointX="8.75" PointY="8.75" />
         <AssociationConnector Association="TuoteDemoRonieModel.FK_Asiakkaat_Postitoimipaikat" />
         <AssociationConnector Association="TuoteDemoRonieModel.FK_Tilaukset_Asiakkaat" />
         <AssociationConnector Association="TuoteDemoRonieModel.FK_Tuote_Kategoria" />

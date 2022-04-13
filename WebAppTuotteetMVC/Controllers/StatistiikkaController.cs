@@ -43,23 +43,19 @@ namespace WebAppTuotteetMVC.Controllers
             ViewBag.kategoriaNimi = kategoriaNimiLista;
             ViewBag.kategoriaMyynnit = kategoriaMyynnitLista;
 
-            return View();
-        }
 
-        public ActionResult TopMyynnit()
-        {
             string topNimiLista;
             string topMyynnitLista;
 
-            List<TopSales> TopTuoteMyynnit = new List<TopSales>();
+            List<KategoriaMyynnitVM> TopTuoteMyynnit = new List<KategoriaMyynnitVM>();
 
             var topMyyntiData = from tm in db.KaikkiMyynnit
-                                       orderby tm.MyytyYhteensä descending
-                                       select tm;
+                                orderby tm.MyytyYhteensä descending
+                                select tm;
 
             foreach (KaikkiMyynnit topmyynnit in topMyyntiData)
             {
-                TopSales yksiMyyntiRivi = new TopSales();
+                KategoriaMyynnitVM yksiMyyntiRivi = new KategoriaMyynnitVM();
                 yksiMyyntiRivi.Nimi = topmyynnit.Nimi;
                 yksiMyyntiRivi.MyytyYhteensä = (int?)topmyynnit.MyytyYhteensä;
                 TopTuoteMyynnit.Add(yksiMyyntiRivi);
